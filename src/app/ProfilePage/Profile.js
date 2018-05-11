@@ -3,7 +3,7 @@ import { dataServices } from '../../service/dataService';
 import UserCard from './UserCard';
 import PostAndCommentsCount from './PostAndCommentsCount';
 import Modal from 'react-modal';
-import { Form ,Image, Input, Button, Container} from 'semantic-ui-react';
+import { Form, Image, Input, Button, Container } from 'semantic-ui-react';
 import ErrorComponent from '../sharedComponents/ErrorComponent';
 
 class Profile extends Component {
@@ -21,38 +21,35 @@ class Profile extends Component {
         }
     }
 
-   /* Getting one user from API response */
+    /* Getting one user from API response */
 
     getUserData = () => {
-    dataServices.getUser(this.props.match.params.id)
-    .then((myUser) => {
-        if(myUser.error){
-            this.setState({
-                error: myUser.error
+        dataServices.getUser(this.props.match.params.id)
+            .then((myUser) => {
+                if (myUser.error) {
+                    this.setState({
+                        error: myUser.error
+                    })
+                } else {
+                    this.setState({
+                        user: myUser,
+                        newPhotoUrl: myUser.avatarUrl,
+                        newAbout: myUser.about,
+                        newName: myUser.name,
+                    })
+                }
             })
-        } else {
-        this.setState({
-            user: myUser,
-            newPhotoUrl: myUser.avatarUrl,
-            newAbout: myUser.about,
-            newName: myUser.name,
-        })
     }
-    })
-}
-
-
-
 
     componentDidMount() {
-       this.getUserData()
+        this.getUserData()
     }
 
     /* React Modal for updating profile */
 
     openModal = (event) => {
         this.setState({ modalIsOpen: true });
-      
+
     }
 
     closeModal = () => {
@@ -74,15 +71,15 @@ class Profile extends Component {
 
         dataServices.uploadPhoto(formData)
             .then((result) => {
-                if(result.error){
+                if (result.error) {
                     this.setState({
                         error: result.error
                     })
                 } else {
-                this.setState({
-                    newPhotoUrl: result,
-                })
-            }
+                    this.setState({
+                        newPhotoUrl: result,
+                    })
+                }
             })
     }
 
@@ -90,7 +87,7 @@ class Profile extends Component {
 
     handleInputNameChange = (event) => {
         this.setState({
-            newName : event.target.value
+            newName: event.target.value
         })
         this.inputValidation(event);
     }
@@ -99,7 +96,7 @@ class Profile extends Component {
 
     handleInputAboutChange = (event) => {
         this.setState({
-            newAbout : event.target.value
+            newAbout: event.target.value
         })
         this.inputValidation(event);
     }
@@ -113,50 +110,50 @@ class Profile extends Component {
         this.inputValidation(event);
     }
 
-     /* Updating user data */
+    /* Updating user data */
 
     checkData = () => {
         let data = {
-            'email':"email",
+            'email': "email",
             'name': this.state.newName,
             'about': this.state.newAbout,
-            "aboutShort": this.state.newAbout.slice(0,50),
+            "aboutShort": this.state.newAbout.slice(0, 50),
             'avatarUrl': this.state.newPhotoUrl
         }
         dataServices.changeProfile(data)
-        .then((result) => {
-            if(result.error){
-                this.setState({
-                    error: result.error
-                })
-            } else {
-            this.setState({
-                modalIsOpen: false
+            .then((result) => {
+                if (result.error) {
+                    this.setState({
+                        error: result.error
+                    })
+                } else {
+                    this.setState({
+                        modalIsOpen: false
+                    })
+                    this.getUserData()
+                }
             })
-            this.getUserData()
-        }
-        })
     }
 
     /* Validation input data */
 
     inputValidation = (event) => {
-        if(event.target.value){
-           this.setState({
-               buttonDisabled: false,
-               errorMessage: ''
-           })
-        } 
-        if(this.state.newName.length > 40){
+        if (event.target.value) {
+            this.setState({
+                buttonDisabled: false,
+                errorMessage: ''
+            })
+        }
+        if (this.state.newName.length > 40) {
             this.setState({
                 errorMessage: 'Name is too long',
-                buttonDisabled: true               
+                buttonDisabled: true
             });
         }
-        if(this.state.newAbout.length > 400){
+        if (this.state.newAbout.length > 400) {
             this.setState({
                 errorMessage: 'About is too long',
-                buttonDisabled: true               
+                buttonDisabled: true
             });
         }
         const myUrlLength = this.state.newPhotoUrl.length;
@@ -166,14 +163,14 @@ class Profile extends Component {
         if (cutUrl !== 'jpg' && cutUrl !== 'png' && cutUrl !== 'gif' && cutUrlJpeg !== 'jpeg') {
             this.setState({
                 errorMessage: 'Post is not image',
-                buttonDisabled:true
+                buttonDisabled: true
             });
         } else {
             this.setState({
                 errorMessage: ''
             })
         }
-        if(!event.target.value) {
+        if (!event.target.value) {
             this.setState({
                 buttonDisabled: true,
                 errorMessage: 'All data is required'
@@ -182,48 +179,45 @@ class Profile extends Component {
     }
 
     renderModal = () => {
+
         return (
             <Container >
-           
                 <h2 ref={subtitle => this.subtitle = subtitle} className='headline'>Edit profile</h2>
                 <ErrorComponent errorMessage={this.state.error} />
                 <Form>
-                <Form.Group id="photoForm">
-                    <Form.Field control={Input} type="file" accept=".jpg, .jpeg, .png" onChange={this.fileChangeHandler} width={8}/>
-                    <Form.Field control={Image} src={this.state.newPhotoUrl} width={1}/>
-                    <Form.Field control={Button} onClick={this.addPhoto} width={3}>SUBMIT</Form.Field>
+                    <Form.Group id="photoForm">
+                        <Form.Field control={Input} type="file" accept=".jpg, .jpeg, .png" onChange={this.fileChangeHandler} width={8} />
+                        <Form.Field control={Image} src={this.state.newPhotoUrl} width={1} />
+                        <Form.Field control={Button} onClick={this.addPhoto} width={3}>SUBMIT</Form.Field>
                     </Form.Group>
                 </Form>
                 <Form>
-                <Form.Group>
-                    <Form.Field control={Input} label = "Name" width={5} type='text' value={this.state.newName} onChange={this.handleInputNameChange} className='input-item' />
-                    
-                    <Form.Field control={Input} label="Photo Url" width={5} type="url" value={this.state.newPhotoUrl} onChange={this.handleInputUrlChange} className='input-item' />
-                
-                    <Form.Field control={Input} label='About' type='text' width={5}value={this.state.newAbout} onChange={this.handleInputAboutChange} className='input-item' /> 
-                  </Form.Group>
-                  <br/>
-                  <Form.Group>
-                    <div id='warning' className={this.state.errorMessage ? 'visible':'invisible'}>{this.state.errorMessage}</div>
+                    <Form.Group>
+                        <Form.Field control={Input} label="Name" width={5} type='text' value={this.state.newName} onChange={this.handleInputNameChange} className='input-item' />
+                        <Form.Field control={Input} label="Photo Url" width={5} type="url" value={this.state.newPhotoUrl} onChange={this.handleInputUrlChange} className='input-item' />
+                        <Form.Field control={Input} label='About' type='text' width={5} value={this.state.newAbout} onChange={this.handleInputAboutChange} className='input-item' />
                     </Form.Group>
-                  <Form.Group>
-                  < Form.Field control={Button} width={2} onClick={this.checkData} disabled={this.state.buttonDisabled}>UPDATE</Form.Field>
-                    < Form.Field control={Button} width={2} onClick={this.closeModal}>CLOSE</Form.Field>
+                    <br />
+                    <Form.Group>
+                        <div id='warning' className={this.state.errorMessage ? 'visible' : 'invisible'}>{this.state.errorMessage}</div>
                     </Form.Group>
-                
-
-            </Form>
+                    <Form.Group>
+                        < Form.Field control={Button} width={2} onClick={this.checkData} disabled={this.state.buttonDisabled}>UPDATE</Form.Field>
+                        < Form.Field control={Button} width={2} onClick={this.closeModal}>CLOSE</Form.Field>
+                    </Form.Group>
+                </Form>
             </Container>
         )
     }
 
     render() {
+
         return (
             <div className="ui three column grid">
                 <div className="row">
                     <div className='four wide column'></div>
                     <div className='eight wide column'>
-                <ErrorComponent errorMessage={this.state.error} />
+                        <ErrorComponent errorMessage={this.state.error} />
                         <UserCard user={this.state.user} handleClick={this.openModal} />
                         <PostAndCommentsCount user={this.state.user} />
                     </div>

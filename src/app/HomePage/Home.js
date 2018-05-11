@@ -7,7 +7,6 @@ import { dataServices } from '../../service/dataService';
 import Modal from 'react-modal';
 import { Form, Input, Button, Container, Icon, Pagination, Grid } from 'semantic-ui-react';
 
-
 class Home extends Component {
     constructor(props) {
         super(props)
@@ -24,13 +23,12 @@ class Home extends Component {
             buttonDisabled: true,
             selectedPhoto: '',
             activePage: 1,
-            numberOfAllPage:0,
-           error: '',
+            numberOfAllPage: 0,
+            error: '',
         }
     }
 
     /* Getting all text posts, image posts, video posts from API response */
-
 
     getAllPosts = (page) => {
         dataServices.getPosts(page)
@@ -56,23 +54,22 @@ class Home extends Component {
 
     componentDidMount() {
         dataServices.getPostsCount()
-                .then(countPosts=>{
-                    this.setState({
-                       numberOfAllPage: Math.ceil(countPosts/10)
-                    })
-                    this.getAllPosts(0);
+            .then(countPosts => {
+                this.setState({
+                    numberOfAllPage: Math.ceil(countPosts / 10)
                 })
-      
+                this.getAllPosts(0);
+            })
     }
 
-componentWillReceiveProps(nextProps) {
-    if(nextProps.match.path === '/'){
-        this.getAllPosts(0);
-        this.setState({
-            activePage:1
-        })
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.match.path === '/') {
+            this.getAllPosts(0);
+            this.setState({
+                activePage: 1
+            })
+        }
     }
-}
 
     /* Changing state of input for all new posts */
 
@@ -106,20 +103,20 @@ componentWillReceiveProps(nextProps) {
     /* Validation of text posts */
 
     checkTextInput = () => {
-        if (this.textValidation(this.state.input)){
+        if (this.textValidation(this.state.input)) {
             dataServices.addNewTextPost(this.state.input)
                 .then((response) => {
-             if (response.error) {
+                    if (response.error) {
                         this.setState({
                             error: response.error
                         })
-                } else {
-                        this.getAllPosts(this.state.activePage-1);
+                    } else {
+                        this.getAllPosts(this.state.activePage - 1);
                         this.closeModal();
                         this.setState({
-                           activePage: 0
-                    })
-                    }                  
+                            activePage: 0
+                        })
+                    }
                 }
                 )
         }
@@ -156,59 +153,57 @@ componentWillReceiveProps(nextProps) {
         if (this.imageValidation(this.state.input) === true) {
             dataServices.addNewImagePost(this.state.input)
                 .then((response) => {
-                if (response.error) {
+                    if (response.error) {
                         this.setState({
                             error: response.error
                         })
-                     } else {
-                        this.getAllPosts(this.state.activePage-1);
+                    } else {
+                        this.getAllPosts(this.state.activePage - 1);
                         this.closeModal();
                     }
                 }
-            )
+                )
         }
     }
 
-    handleInputVideoChange = (event) =>{
+    handleInputVideoChange = (event) => {
         this.setState({
             input: event.target.value
         })
         this.videoValidation(event.target.value)
-    } 
+    }
     /* Validation of video posts */
 
-    videoValidation = (video) =>{
+    videoValidation = (video) => {
         if (video.includes("watch?v=")) {
-            let newVideo=video.replace("watch?v=", "embed/");
+            let newVideo = video.replace("watch?v=", "embed/");
             return newVideo
-        } else{
+        } else {
             this.setState({
                 message: 'Post is not video'
-            }) 
+            })
             return false;
         }
     }
 
     checkVideoInput = () => {
-       if(this.videoValidation(this.state.input)){
-          
+        if (this.videoValidation(this.state.input)) {
+
             dataServices.addNewVideoPost(this.videoValidation(this.state.input))
                 .then((response) => {
-                       if (response.error) {
+                    if (response.error) {
                         this.setState({
                             error: response.error
                         })
                     } else {
-                        this.getAllPosts(this.state.activePage-1);
+                        this.getAllPosts(this.state.activePage - 1);
                         this.closeModal();
                     }
                 })
-            }
         }
-
+    }
 
     /* Selected type of posts */
-
 
     handleChange = (event, data) => {
 
@@ -239,7 +234,6 @@ componentWillReceiveProps(nextProps) {
     }
     /* React Modals for new posts */
 
-
     openModal = (event, data) => {
         const modalName = data.value;
 
@@ -247,7 +241,7 @@ componentWillReceiveProps(nextProps) {
     }
 
     closeModal = () => {
-        
+
         this.setState({
             modalIsOpen: false,
             input: '',
@@ -255,12 +249,11 @@ componentWillReceiveProps(nextProps) {
         });
     }
 
-
     renderTextModal = () => {
-       
+
         return (
             <Container >
-                 <ErrorComponent errorMessage={this.state.error} />
+                <ErrorComponent errorMessage={this.state.error} />
                 <Form>
                     <h2 ref={subtitle => this.subtitle = subtitle} className='headline'>New text post</h2>
                     <Form.Group>
@@ -274,14 +267,13 @@ componentWillReceiveProps(nextProps) {
                 </Form>
             </Container>
         )
-
     }
 
     renderImageModal = () => {
 
         return (
             <Container >
-                 <ErrorComponent errorMessage={this.state.error} />
+                <ErrorComponent errorMessage={this.state.error} />
                 <Form>
                     <h2 ref={subtitle => this.subtitle = subtitle} className='headline'>New image post</h2>
                     <Form.Group>
@@ -294,17 +286,14 @@ componentWillReceiveProps(nextProps) {
                     <div id='warning' className={this.state.message ? 'visible' : 'invisible'}>{this.state.message}</div>
                 </Form>
             </Container>
-
-
         )
     }
 
-
     renderVideoModal = () => {
-        return (
 
+        return (
             <Container >
-                 <ErrorComponent errorMessage={this.state.error} />
+                <ErrorComponent errorMessage={this.state.error} />
                 <Form>
                     <h2 ref={subtitle => this.subtitle = subtitle} className='headline'>New video post</h2>
                     <Form.Group>
@@ -327,6 +316,7 @@ componentWillReceiveProps(nextProps) {
             case "video": return this.renderVideoModal()
         }
     }
+
     closeBigPhoto = () => {
         this.setState({
             selectedPhoto: ''
@@ -338,56 +328,51 @@ componentWillReceiveProps(nextProps) {
             activePage: activePage,
             modalIsOpen: false
         })
-       
-        this.getAllPosts(activePage-1)
+        this.getAllPosts(activePage - 1)
     }
 
     render() {
-console.log(this.props.match.path);
-        return <Grid stackable columns={7}>
-            <Grid.Column width = {1}/>
-            <Grid.Column computer = {2} tablet={3}>
-            <NewPostButton className="dropdown" openPost={this.openModal} />
-            <MenuAllPosts handleChange={this.handleChange} />
-            </Grid.Column>
-            <Grid.Column width = {1}/>
-                    
-            <Grid.Column  width = {8}>
+
+        return (
+            <Grid stackable columns={7}>
+                <Grid.Column width={1} />
+                <Grid.Column computer={2} tablet={3}>
+                    <NewPostButton className="dropdown" openPost={this.openModal} />
+                    <MenuAllPosts handleChange={this.handleChange} />
+                </Grid.Column>
+                <Grid.Column width={1} />
+                <Grid.Column width={8}>
                     <PostList posts={this.state.selectedPosts} handleBigPhoto={this.handleBigPhoto} />
-                   <Grid>
-                   <Grid.Column width = {2}>
-                   </Grid.Column>
-                   <Grid.Column  width = {8}>
-                    <Pagination id='pagination'
-                        activePage={this.state.activePage}
-                        firstItem={null}
-                        lastItem={null}
-                        pointing
-                        secondary
-                        totalPages={this.state.numberOfAllPage}
-                        onPageChange={this.handlePageChange}
-                    />
-                     </Grid.Column>
-                    <Grid.Column width = {2}/>
+                    <Grid>
+                        <Grid.Column width={2}>
+                        </Grid.Column>
+                        <Grid.Column width={8}>
+                            <Pagination id='pagination'
+                                activePage={this.state.activePage}
+                                firstItem={null}
+                                lastItem={null}
+                                pointing
+                                secondary
+                                totalPages={this.state.numberOfAllPage}
+                                onPageChange={this.handlePageChange}
+                            />
+                        </Grid.Column>
+                        <Grid.Column width={2} />
                     </Grid>
                     <ErrorComponent errorMessage={this.state.error} />
-
                 </Grid.Column>
-                <Grid.Column width = {4}/>
-              
-
-            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} className="Modal" contentLabel="Example Modal" ariaHideApp={false} >
-                {this.renderModalComponent()}
-            </Modal>
-            <div id='theaterMode' className={this.state.selectedPhoto ? 'visible' : 'invisible'}>
-                <Button onClick={this.closeBigPhoto}>
-                    <Icon name='close' />
-                </Button>
-                <img src={this.state.selectedPhoto} alt='selected'/>
-            </div>
-        </Grid>;
-
-
+                <Grid.Column width={4} />
+                <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} className="Modal" contentLabel="Example Modal" ariaHideApp={false} >
+                    {this.renderModalComponent()}
+                </Modal>
+                <div id='theaterMode' className={this.state.selectedPhoto ? 'visible' : 'invisible'}>
+                    <Button onClick={this.closeBigPhoto}>
+                        <Icon name='close' />
+                    </Button>
+                    <img src={this.state.selectedPhoto} alt='selected' />
+                </div>
+            </Grid>
+        )
     }
 }
 

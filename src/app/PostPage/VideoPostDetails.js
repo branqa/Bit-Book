@@ -70,6 +70,7 @@ class VideoPostDetails extends Component {
     }
 
     render() {
+        
         return (
             <div className="ui three column grid">
                 <div className="row">
@@ -77,7 +78,7 @@ class VideoPostDetails extends Component {
                     <div className='eight wide column'>
                         <div className="ui one cards">
                             <PostItem onePost={this.state.post} deleteMyPost={this.deleteMyVideoPost} />
-                    <ErrorComponent errorMessage={this.state.error} />
+                            <ErrorComponent errorMessage={this.state.error} />
                         </div>
                         <AddCommentForm postId={this.state.post.id} invalidate={this.onInvalidate} />
                         <CommentList comments={this.state.comments} />

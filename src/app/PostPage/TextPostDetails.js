@@ -14,7 +14,6 @@ class TextPostDetails extends Component {
         }
     }
 
-
     getAllComments = (id) => {
         dataServices.getComment(id)
             .then((myComments) => {
@@ -57,7 +56,6 @@ class TextPostDetails extends Component {
 
     /* Deleting text posts */
 
-
     deleteMyTextPost = (event) => {
         event.preventDefault()
         dataServices.deletePosts(this.state.post.id)
@@ -73,6 +71,7 @@ class TextPostDetails extends Component {
     }
 
     render() {
+
         return (
             <div className="ui three column grid">
                 <div className="row">
@@ -80,12 +79,10 @@ class TextPostDetails extends Component {
                     <div className='eight wide column'>
                         <div className="ui one cards">
                             <PostItem onePost={this.state.post} deleteMyPost={this.deleteMyTextPost} />
-                    <ErrorComponent errorMessage={this.state.error} />
+                            <ErrorComponent errorMessage={this.state.error} />
                         </div>
                         <AddCommentForm postId={this.state.post.id} invalidate={this.onInvalidate} />
-
                         <CommentList comments={this.state.comments} />
-
                     </div>
                     <div className='four wide column'>
                     </div>

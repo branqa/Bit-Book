@@ -59,6 +59,7 @@ class ImagePostDetails extends Component {
     }
 
     render() {
+
         return (
             <div className="ui three column grid">
                 <div className="row">
@@ -66,7 +67,7 @@ class ImagePostDetails extends Component {
                     <div className='eight wide column'>
                         <div className="ui one cards">
                             <PostItem onePost={this.state.post} deleteMyPost={this.deleteMyImagePost} />
-                             <ErrorComponent errorMessage={this.state.error} />
+                            <ErrorComponent errorMessage={this.state.error} />
                         </div>
                         <AddCommentForm postId={this.state.post.id} invalidate={this.onInvalidate} />
                         <CommentList comments={this.state.comments} />

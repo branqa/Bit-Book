@@ -7,7 +7,6 @@ class Post {
         this.type = post.type;
         this.commentsNum = post.commentsNum;
     }
-
 }
 
 export default Post;

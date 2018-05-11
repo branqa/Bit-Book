@@ -1,11 +1,6 @@
 import React from 'react';
-import { Tab, Container, Grid, Segment, Form, Button } from 'semantic-ui-react';
+import { Tab, Grid, Form, Button } from 'semantic-ui-react';
 import { authService } from '../../service/authenticationService';
-import ErrorComponent from '../sharedComponents/ErrorComponent';
-
-
-
-
 
 class LoginAndRegister extends React.Component {
     constructor(props) {
@@ -45,7 +40,7 @@ class LoginAndRegister extends React.Component {
                 errorUsernameLog: 'Username is too long!'
             })
 
-        } else if (username == '') {
+        } else if (username === '') {
             this.setState({
                 errorUsernameLog: 'Username is missing!'
             })
@@ -70,7 +65,7 @@ class LoginAndRegister extends React.Component {
             this.setState({
                 errorPasswordLog: 'Password is too long'
             })
-        } else if (pass == '') {
+        } else if (pass === '') {
             this.setState({
                 errorPasswordLog: 'Password is missing!'
             })
@@ -104,7 +99,6 @@ class LoginAndRegister extends React.Component {
     }
 
     /* Register validation input for username */
-
 
     usernameRegisterChange = (event) => {
         this.setState({
@@ -150,7 +144,6 @@ class LoginAndRegister extends React.Component {
         }
     }
 
-
     /* Register validation input for password */
 
     passwordRegisterChange = (event) => {
@@ -161,13 +154,12 @@ class LoginAndRegister extends React.Component {
         this.passwordRegValidation(event.target.value);
     }
 
-
     passwordRegValidation = (pass) => {
         if (pass.length > 23) {
             this.setState({
                 errorRegPassword: 'Password is too long'
             })
-        } else if (pass.length === 0){
+        } else if (pass.length === 0) {
             this.setState({
                 errorRegPassword: 'Password is missing'
             })
@@ -175,7 +167,6 @@ class LoginAndRegister extends React.Component {
             return true;
         }
     }
-
 
     /* Click on button register  */
 
@@ -188,21 +179,20 @@ class LoginAndRegister extends React.Component {
         }
         if (this.usernameRegValidation(this.state.registerUsername) && this.emailRegValidation(this.state.registerEmail) && this.passwordRegValidation(this.state.registerPassword)) {
             authService.userRegister(user)
-            .then((response) => {
-                if (response.error) {
-                    this.setState({
-                        errorRegBtn: response.error,
-                        registerUsername: '',
-                        registerPassword: '',
-                        registerEmail: ''
-                    })
-                } else {
-                    window.location.assign('/login');
-                }
-            })
+                .then((response) => {
+                    if (response.error) {
+                        this.setState({
+                            errorRegBtn: response.error,
+                            registerUsername: '',
+                            registerPassword: '',
+                            registerEmail: ''
+                        })
+                    } else {
+                        window.location.assign('/login');
+                    }
+                })
         }
     }
-
 
     /* Tab for login  */
 
@@ -212,7 +202,7 @@ class LoginAndRegister extends React.Component {
                 <Form.Field>
 
                     <label>username</label>
-                    <input type='text' onChange={this.usernameLoginChange} placeholder='Username' value={this.state.loginUsername}/><br />
+                    <input type='text' onChange={this.usernameLoginChange} placeholder='Username' value={this.state.loginUsername} /><br />
                     <div>{this.state.errorUsernameLog}</div>
                 </Form.Field>
                 <Form.Field>
@@ -226,7 +216,6 @@ class LoginAndRegister extends React.Component {
             </Form>
         )
     }
-
 
     /* Click on button register  */
 
@@ -258,35 +247,29 @@ class LoginAndRegister extends React.Component {
         return (
             <React.Fragment>
                 <Grid id='main' stackable columns={4} >
-                    <Grid.Column  width={1} ></Grid.Column>
-                    <Grid.Column  computer={7} tablet={14}  className='welcome-container'>
+                    <Grid.Column width={1} ></Grid.Column>
+                    <Grid.Column computer={7} tablet={14} className='welcome-container'>
                         <div id='login'>
                             <h1>Welcome to Bitbook</h1><br />
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
                         </div>
 
                     </Grid.Column>
-                    <Grid.Column  computer={5} tablet={14} className='tabs' >
+                    <Grid.Column computer={5} tablet={14} className='tabs' >
                         <div id='tabs'>
                             <Tab panes={[{ menuItem: 'Login', render: () => <Tab.Pane attached={false}>{this.login()}  </Tab.Pane> },
                             { menuItem: 'Register', render: () => <Tab.Pane attached={false}>{this.register()}</Tab.Pane> }]} menu={{ pointing: true }} />
                             <div className={this.state.errorLogBtn ? 'error-login' : 'invisible'} > {this.state.errorLogBtn} </div>
                             <div className={this.state.errorRegBtn ? 'error-login' : 'invisible'} > {this.state.errorRegBtn} </div>
                         </div>
-
-
-
-
                     </Grid.Column>
-                    <Grid.Column  width={1} ></Grid.Column>
+                    <Grid.Column width={1} ></Grid.Column>
                 </Grid>
             </React.Fragment>
         )
     }
 
 }
-
-
 
 export default LoginAndRegister;
 

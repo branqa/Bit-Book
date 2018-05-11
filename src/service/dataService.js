@@ -6,7 +6,6 @@ import Comment from '../entities/Comment';
 import { sessionService } from './sessionService'
 
 
-
 class DataServices {
 
     getPosts = (page) => {

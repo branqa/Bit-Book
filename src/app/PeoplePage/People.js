@@ -44,7 +44,6 @@ class People extends Component {
         })
     }
 
-
     checkSearchUsers = () => {
         if (this.state.searchUsers === true) {
             return this.state.filterUsers
@@ -54,19 +53,19 @@ class People extends Component {
     }
 
     render() {
-        return <div className="ui grid">
-            <div className="five wide column" />
-            <div className="six wide column">
-                <Search handleChange={this.handleChange} inputValue={this.state.inputValue} />
-                <UserList myUsers={this.checkSearchUsers()} />
-                <ErrorComponent errorMessage={this.state.error} />
+
+        return (
+            <div className="ui grid">
+                <div className="five wide column" />
+                <div className="six wide column">
+                    <Search handleChange={this.handleChange} inputValue={this.state.inputValue} />
+                    <UserList myUsers={this.checkSearchUsers()} />
+                    <ErrorComponent errorMessage={this.state.error} />
+                </div>
+                <div className="five wide column"></div>
             </div>
-            <div className="five wide column"></div>
-        </div>
+        )
     }
-
-
 }
-
 
 export default People;
