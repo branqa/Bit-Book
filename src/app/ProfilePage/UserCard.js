@@ -9,7 +9,7 @@ const UserCard = (props) => {
             <Image src={props.user.avatarUrl} size='medium' circular centered />
             <Header size='large'>{props.user.name} </Header>
             <button onClick={props.handleClick} id="editButton" className={(userId === props.user.userId) ? 'visible' : 'invisible'}>Edit profile</button>
-            <p>
+            <p id="about">
                 {props.user.about}
             </p>
 

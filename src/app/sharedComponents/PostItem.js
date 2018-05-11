@@ -22,7 +22,7 @@ const PostItem = (props) => {
                     </span>
 
                     <div className='content'>
-                        <button onClick={props.deleteMyPost} className={(window.location.hash.includes('#/feeds/text/')) && (userId === props.onePost.userId) ? 'visible' : 'invisible'}>Delete</button>
+                        <button onClick={props.deleteMyPost} className={window.location.hash === `#/feeds/text/${props.onePost.id}` && (userId === props.onePost.userId) ? 'visible' : 'invisible'}>Delete</button>
                     </div>
                     <i className="file alternate icon icon-type"></i>
                     {props.onePost.type}

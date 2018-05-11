@@ -76,12 +76,15 @@ body, html, root {
  width:100%;
 }
 
+#about{
+  margin-top:1em;
+}
 .Modal{
   position: absolute;
-  top: 183px;
-  left: 167px;
-  right: 103px;
-  bottom: 358px;
+  width:80%;
+  height: 60vh;
+  top: 20%;
+  left: 10%;
   background-color: white;
   border: 1px solid black;
   padding:30px;
@@ -177,6 +180,7 @@ background-color:rgb(105, 153, 199);
 }
 
 .ui.button.delete-btn {
+  margin-top:10px;
   background-color: #6a71cb;
   color: white;
 }
@@ -309,3 +313,4 @@ background: #8188f8;
   font-size: 20px;
   color: red;
 }
+
