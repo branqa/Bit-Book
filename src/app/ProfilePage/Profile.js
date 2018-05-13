@@ -89,7 +89,7 @@ class Profile extends Component {
         this.setState({
             newName: event.target.value
         })
-        this.inputValidation(event);
+        this.inputNameValidation(event.target.value);
     }
 
     /* Changing about */
@@ -98,7 +98,7 @@ class Profile extends Component {
         this.setState({
             newAbout: event.target.value
         })
-        this.inputValidation(event);
+        this.inputAboutChangeValidation(event.target.value);
     }
 
     /* Changing URL */
@@ -107,7 +107,7 @@ class Profile extends Component {
         this.setState({
             newPhotoUrl: event.target.value
         })
-        this.inputValidation(event);
+        this.inputUrlValidation(event.target.value);
     }
 
     /* Updating user data */
@@ -135,45 +135,67 @@ class Profile extends Component {
             })
     }
 
-    /* Validation input data */
-
-    inputValidation = (event) => {
-        if (event.target.value) {
+    /* Validation input name */
+    inputNameValidation = (name) => {
+        if (name.length > 40) {
+            this.setState({
+                errorMessage: 'Name is too long',
+                buttonDisabled: true
+            });
+        } else if (name === '') {
+            this.setState({
+                errorMessage: 'Name is missing',
+                buttonDisabled: true
+            });
+        }
+        else {
             this.setState({
                 buttonDisabled: false,
                 errorMessage: ''
             })
         }
-        if (this.state.newName.length > 40) {
-            this.setState({
-                errorMessage: 'Name is too long',
-                buttonDisabled: true
-            });
-        }
-        if (this.state.newAbout.length > 400) {
+    }
+
+    /* Validation input about */
+    inputAboutChangeValidation = (about) => {
+        if (about.length > 400) {
             this.setState({
                 errorMessage: 'About is too long',
                 buttonDisabled: true
             });
+        } else if (about === '') {
+            this.setState({
+                errorMessage: 'About is missing',
+                buttonDisabled: true
+            });
+        } else {
+            this.setState({
+                buttonDisabled: false,
+                errorMessage: ''
+            })
         }
-        const myUrlLength = this.state.newPhotoUrl.length;
-        const cutUrl = this.state.newPhotoUrl.slice(myUrlLength - 3);
-        const cutUrlJpeg = this.state.newPhotoUrl.slice(myUrlLength - 4);
+    }
 
-        if (cutUrl !== 'jpg' && cutUrl !== 'png' && cutUrl !== 'gif' && cutUrlJpeg !== 'jpeg') {
+    /* Validation input url */
+    inputUrlValidation = (url) => {
+        const myUrlLength = url.length;
+        const cutUrl = url.slice(myUrlLength - 3);
+        const cutUrlJpeg = url.slice(myUrlLength - 4);
+
+        if (url === '') {
+            this.setState({
+                errorMessage: 'Image url is missing',
+                buttonDisabled: true
+            });
+        } else if (cutUrl !== 'jpg' && cutUrl !== 'png' && cutUrl !== 'gif' && cutUrlJpeg !== 'jpeg') {
             this.setState({
                 errorMessage: 'Post is not image',
                 buttonDisabled: true
             });
         } else {
             this.setState({
+                buttonDisabled: false,
                 errorMessage: ''
-            })
-        }
-        if (!event.target.value) {
-            this.setState({
-                buttonDisabled: true,
-                errorMessage: 'All data is required'
             })
         }
     }
@@ -186,9 +208,9 @@ class Profile extends Component {
                 <ErrorComponent errorMessage={this.state.error} />
                 <Form>
                     <Form.Group id="photoForm">
-                        <Form.Field  control={Input} type="file" accept=".jpg, .jpeg, .png" onChange={this.fileChangeHandler} width={8} />
-                        <Form.Field  control={Image} src={this.state.newPhotoUrl} width={1} />
-                        <Form.Field  control={Button} onClick={this.addPhoto} width={3}>SUBMIT</Form.Field>
+                        <Form.Field control={Input} type="file" accept=".jpg, .jpeg, .png" onChange={this.fileChangeHandler} width={8} />
+                        <Form.Field control={Image} src={this.state.newPhotoUrl} width={1} />
+                        <Form.Field control={Button} onClick={this.addPhoto} width={3}>SUBMIT</Form.Field>
                     </Form.Group>
                 </Form>
                 <Form>
@@ -224,7 +246,7 @@ class Profile extends Component {
                     <div className='four wide column'>
                     </div>
                 </div>
-                <Modal 
+                <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeModal}
                     className="Modal"
