@@ -45,6 +45,12 @@ class Profile extends Component {
         this.getUserData()
     }
 
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.match.params.id !== this.props.match.params.id) {
+            window.location.reload();
+        }
+    };
+
     /* React Modal for updating profile */
 
     openModal = (event) => {
