@@ -2,6 +2,7 @@
   "name": "bitbook",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://branqa.github.io/bitbook",
   "dependencies": {
     "npm": "^5.7.1",
     "react": "^16.2.0",
@@ -17,6 +18,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.1.0"
   }
 }

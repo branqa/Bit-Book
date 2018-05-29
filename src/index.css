@@ -41,9 +41,15 @@ body, html, root {
 }
 
 #logout{
-  padding-right: 20px;
-  color: rgb(177, 202, 248);
+  padding: 0 10px;
+  color: rgb(246, 247, 248);
   margin-left:25px;
+  border: none;
+  background-color: #6a71cb;
+}
+
+#logout:hover{
+  color:rgb(109, 109, 240);
 }
 
 .logo-app {
@@ -195,14 +201,19 @@ background: #8188f8;
 
 #theaterMode{
   position: fixed;
-  top: 7%;
-  left:7%;
-  width:85%;
+  top: 1%;
+  left:15%;
+  width:70%;
   z-index:1;
 }
 
 #theaterMode img {
   width:100%;
+  height: 88vh;
+}
+
+i.close{
+  color:white !important;
 }
 
 #segmentPhoto{

@@ -19,7 +19,7 @@ const Header = () => {
       <Link to="/" className="header-link">Feed</Link>
       <Link to="/people" className="header-link"> People</Link>
       <Link to={`/profile/${userId}`} className="header-link">Profile</Link>
-      <a onClick={handleClick} id='logout' className="header-link">Logout</a>
+      <a onClick={handleClick} className="header-link"><button id='logout'>Logout</button></a>
     </Grid.Column>
   </Grid>
 }
